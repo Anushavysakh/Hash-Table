@@ -1,14 +1,13 @@
 package com.hashtable.bridgelabz;
 
 class HashtableImpl<K, V> {
-
-Node head;
+    Node head;
     Node tail;
     private final int numOfBuckets;
     ArrayList<Node<K,V>> myBucketArray;
 
-    public HashtableImpl2() {
-        this.numOfBuckets = 20;                     //20 is assigned a little more than the numbers of total words
+    public HashtableImpl3() {
+        this.numOfBuckets = 20;    
         this.myBucketArray = new ArrayList<>();
         for (int i = 0; i < numOfBuckets; i++)
             this.myBucketArray.add(null);
@@ -31,7 +30,6 @@ Node head;
         }
     }
 
-    //Append the value in the linked list
     public void append(Node myNode) {
         if(this.head == null)
             this.head = myNode;
@@ -43,7 +41,6 @@ Node head;
         }
     }
 
-    //Searching for the word in the linked list
     public Node<K, V> searchNode(K data) {
         Node currentNode = head;
         int position = 0;
@@ -63,21 +60,36 @@ Node head;
             return null;
         Node<K, V> myMapNode = searchNode(word);
         return (myMapNode == null) ? null : myMapNode.getValue();
-    }
+}
 
     private int getBucketIndex(K word) {
         int hashCode = Math.abs(word.hashCode());
+        System.out.println(hashCode);
         int index = hashCode % numOfBuckets;
+        System.out.println(index);
         return index;
     }
 
-    
+    public void remove(K word) {
+        Node currentNode = head;
+        Node previousNode = null;
+        while (currentNode != null && currentNode.getKey().equals(word)) {
+            head = currentNode.getNext();
+            return;
+        }
+        while (currentNode != null && !(currentNode.getKey().equals(word))) {
+            previousNode = currentNode;
+            currentNode = currentNode.getNext();
+        }
+        if (currentNode != null) {
+            previousNode.next = currentNode.next;
+        }
+        if(currentNode == null)
+            System.out.println("Word not found!");
+    }
+
     @Override
     public String toString() {
         return "MyLinkedListNodes{" + head + "}";
-    }
-
-    public void printNodes() {
-        System.out.println("My nodes: " + head);
     }
 }
